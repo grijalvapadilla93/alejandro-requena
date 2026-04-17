@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, ReactNode, useState } from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -16,78 +16,64 @@ export function ScrollReveal({
   threshold = 0.15,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
-    // Check if IntersectionObserver is supported
-    if (!('IntersectionObserver' in window)) {
-      // Fallback: show immediately
-      element.classList.add('revealed');
+    // Force show after a timeout as fallback
+    const fallbackTimer = setTimeout(() => {
+      setIsVisible(true);
+    }, 1000 + stagger * 100);
+
+    // Use scroll event as primary method for Safari/iOS
+    const checkVisibility = () => {
+      const rect = element.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Element is in viewport
+      if (rect.top < windowHeight * 0.85 && rect.bottom > 0) {
+        setTimeout(() => {
+          setIsVisible(true);
+        }, stagger * 100);
+        return true;
+      }
+      return false;
+    };
+
+    // Initial check
+    if (checkVisibility()) {
+      clearTimeout(fallbackTimer);
       return;
     }
 
-    // Safari/iOS fix: Use a more compatible approach
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    
-    if (isSafari || isIOS) {
-      // Use scroll event for Safari/iOS
-      const handleScroll = () => {
-        const rect = element.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        // Element is in viewport
-        if (rect.top < windowHeight * 0.85 && rect.bottom > 0) {
-          setTimeout(() => {
-            element.classList.add('revealed');
-          }, stagger * 100);
-          window.removeEventListener('scroll', handleScroll);
-        }
-      };
-      
-      // Initial check
-      handleScroll();
-      
-      // Add scroll listener
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      
-      return () => {
+    // Add scroll listener
+    const handleScroll = () => {
+      if (checkVisibility()) {
         window.removeEventListener('scroll', handleScroll);
-      };
-    } else {
-      // Use IntersectionObserver for other browsers
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setTimeout(() => {
-                entry.target.classList.add('revealed');
-              }, stagger * 100);
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { 
-          threshold,
-          rootMargin: '0px 0px -10% 0px'
-        }
-      );
+        clearTimeout(fallbackTimer);
+      }
+    };
 
-      observer.observe(element);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
-      return () => {
-        if (element) observer.unobserve(element);
-      };
-    }
-  }, [stagger, threshold]);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(fallbackTimer);
+    };
+  }, [stagger]);
 
   return (
     <div
       ref={ref}
-      className={`scroll-reveal ${className}`}
-      style={{ transitionDelay: `${stagger * 0.1}s` }}
+      className={`${className} ${isVisible ? 'revealed' : 'hidden-element'}`}
+      style={{ 
+        transitionDelay: `${stagger * 0.1}s`,
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+        transition: 'opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)'
+      }}
     >
       {children}
     </div>
