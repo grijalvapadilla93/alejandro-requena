@@ -1,15 +1,38 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Add touch event handler for iOS
+  useEffect(() => {
+    const button = buttonRef.current;
+    if (!button) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      setOpen(!open);
+    };
+
+    // Check if we're on iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isIOS) {
+      button.addEventListener('touchstart', handleTouchStart, { passive: false });
+      
+      return () => {
+        button.removeEventListener('touchstart', handleTouchStart);
+      };
+    }
+  }, [open]);
 
   // Close menu on link click
   const handleLink = () => setOpen(false);
@@ -52,6 +75,7 @@ export function Navbar() {
 
         {/* Hamburger button */}
         <button
+          ref={buttonRef}
           className="md:hidden flex flex-col gap-1.5 cursor-pointer bg-transparent border-none p-2 -mr-2"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
