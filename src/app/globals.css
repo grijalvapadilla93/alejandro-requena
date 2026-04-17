@@ -258,15 +258,24 @@ input::placeholder, textarea::placeholder {
 
 /* Parallax layers - pure CSS */
 .parallax-slow {
-  transform: translateY(calc(var(--scroll) * 0.3));
+  transform: translateY(calc(var(--scroll, 0px) * 0.3));
+  -webkit-transform: translateY(calc(var(--scroll, 0px) * 0.3));
+  will-change: transform;
+  -webkit-will-change: transform;
 }
 
 .parallax-medium {
-  transform: translateY(calc(var(--scroll) * 0.5));
+  transform: translateY(calc(var(--scroll, 0px) * 0.5));
+  -webkit-transform: translateY(calc(var(--scroll, 0px) * 0.5));
+  will-change: transform;
+  -webkit-will-change: transform;
 }
 
 .parallax-fast {
-  transform: translateY(calc(var(--scroll) * 0.7));
+  transform: translateY(calc(var(--scroll, 0px) * 0.7));
+  -webkit-transform: translateY(calc(var(--scroll, 0px) * 0.7));
+  will-change: transform;
+  -webkit-will-change: transform;
 }
 
 /* Smooth scroll for parallax */
