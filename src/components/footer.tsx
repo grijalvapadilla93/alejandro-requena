@@ -10,7 +10,7 @@ export function Footer() {
             ALEJANDRO REQUENA
           </div>
           <p className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-[#4f370b]">
-            © 2025 ALEJANDRO REQUENA. TODOS LOS DERECHOS RESERVADOS.
+            © 2026 ALEJANDRO REQUENA. TODOS LOS DERECHOS RESERVADOS.
           </p>
         </div>
 
