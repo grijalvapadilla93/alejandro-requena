@@ -2,7 +2,7 @@
 
 export function Hero() {
   return (
-    <section className="h-screen flex flex-col justify-center px-6 md:px-12 relative overflow-hidden bg-white" id="inicio">
+    <section className="min-h-[100dvh] flex flex-col justify-center px-6 md:px-12 relative overflow-hidden bg-white" id="inicio">
       {/* Layer 1: "ALEJANDRO" text - back layer */}
       <div className="absolute inset-0 flex items-center justify-start z-10 parallax-slow pointer-events-none">
         <h1 className="fragmented-text select-none">

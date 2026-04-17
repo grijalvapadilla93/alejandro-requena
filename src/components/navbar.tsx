@@ -55,6 +55,7 @@ export function Navbar() {
           className="md:hidden flex flex-col gap-1.5 cursor-pointer bg-transparent border-none p-2 -mr-2"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
+          style={{ touchAction: 'manipulation' }}
         >
           <span
             className={`block w-6 h-[1.5px] bg-black transition-all duration-300 ${

@@ -21,18 +21,28 @@ export function ScrollReveal({
     const element = ref.current;
     if (!element) return;
 
+    // Check if IntersectionObserver is supported
+    if (!('IntersectionObserver' in window)) {
+      // Fallback for older browsers/iOS
+      element.classList.add('revealed');
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              entry.target.classList.add("revealed");
+              entry.target.classList.add('revealed');
             }, stagger * 100);
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold }
+      { 
+        threshold,
+        rootMargin: '0px 0px -50px 0px' // Trigger 50px before element enters viewport
+      }
     );
 
     observer.observe(element);
