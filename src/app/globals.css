@@ -262,6 +262,10 @@ input::placeholder, textarea::placeholder {
   -webkit-transform: translateY(calc(var(--scroll, 0px) * 0.3));
   will-change: transform;
   -webkit-will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
 }
 
 .parallax-medium {
@@ -269,6 +273,10 @@ input::placeholder, textarea::placeholder {
   -webkit-transform: translateY(calc(var(--scroll, 0px) * 0.5));
   will-change: transform;
   -webkit-will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
 }
 
 .parallax-fast {
@@ -276,6 +284,10 @@ input::placeholder, textarea::placeholder {
   -webkit-transform: translateY(calc(var(--scroll, 0px) * 0.7));
   will-change: transform;
   -webkit-will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
 }
 
 /* Smooth scroll for parallax */

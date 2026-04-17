@@ -1,64 +1,59 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export function ScrollProvider({ children }: { children: React.ReactNode }) {
-  const ticking = useRef(false);
-
   useEffect(() => {
-    // Check if we're on iOS/Safari
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    
-    const updateScroll = () => {
+    // Polyfill for older browsers
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = (callback) => {
+        return setTimeout(callback, 16);
+      };
+    }
+
+    const handleScroll = () => {
       const scrollY = window.scrollY;
       
       // Update CSS variable
       document.documentElement.style.setProperty('--scroll', `${scrollY}px`);
       
-      // For iOS/Safari, also update directly on elements with parallax classes
-      if (isSafari || isIOS) {
-        const parallaxSlow = document.querySelectorAll('.parallax-slow');
-        const parallaxMedium = document.querySelectorAll('.parallax-medium');
-        const parallaxFast = document.querySelectorAll('.parallax-fast');
+      // Also update for parallax elements directly (better Safari compatibility)
+      const parallaxElements = document.querySelectorAll('.parallax-slow, .parallax-medium, .parallax-fast');
+      
+      parallaxElements.forEach(el => {
+        const element = el as HTMLElement;
+        const speed = element.classList.contains('parallax-slow') ? 0.3 :
+                     element.classList.contains('parallax-medium') ? 0.5 : 0.7;
         
-        parallaxSlow.forEach(el => {
-          (el as HTMLElement).style.transform = `translateY(${scrollY * 0.3}px)`;
-        });
-        
-        parallaxMedium.forEach(el => {
-          (el as HTMLElement).style.transform = `translateY(${scrollY * 0.5}px)`;
-        });
-        
-        parallaxFast.forEach(el => {
-          (el as HTMLElement).style.transform = `translateY(${scrollY * 0.7}px)`;
-        });
-      }
+        element.style.transform = `translateY(${scrollY * speed}px)`;
+        element.style.webkitTransform = `translateY(${scrollY * speed}px)`;
+      });
     };
 
     // Throttle scroll events for better performance
-    const handleScroll = () => {
-      if (!ticking.current) {
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
         requestAnimationFrame(() => {
-          updateScroll();
-          ticking.current = false;
+          handleScroll();
+          ticking = false;
         });
-        ticking.current = true;
+        ticking = true;
       }
     };
 
     // Initial call
-    updateScroll();
+    handleScroll();
 
     // Add scroll listener
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     
     // Also listen for resize events
-    window.addEventListener('resize', updateScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateScroll);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', handleScroll);
     };
   }, []);
 

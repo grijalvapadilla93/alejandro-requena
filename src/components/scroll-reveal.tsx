@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ReactNode, useState } from "react";
+import { useEffect, useRef, ReactNode } from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -16,64 +16,56 @@ export function ScrollReveal({
   threshold = 0.15,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
-    // Force show after a timeout as fallback
+    // Force show after 1.5 seconds as fallback for very old browsers
     const fallbackTimer = setTimeout(() => {
-      setIsVisible(true);
-    }, 1000 + stagger * 100);
+      element.classList.add('revealed');
+    }, 1500 + stagger * 100);
 
-    // Use scroll event as primary method for Safari/iOS
-    const checkVisibility = () => {
-      const rect = element.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      // Element is in viewport
-      if (rect.top < windowHeight * 0.85 && rect.bottom > 0) {
-        setTimeout(() => {
-          setIsVisible(true);
-        }, stagger * 100);
-        return true;
-      }
-      return false;
-    };
-
-    // Initial check
-    if (checkVisibility()) {
+    // Check if IntersectionObserver is supported
+    if (!('IntersectionObserver' in window)) {
+      // Fallback for older browsers
+      element.classList.add('revealed');
       clearTimeout(fallbackTimer);
       return;
     }
 
-    // Add scroll listener
-    const handleScroll = () => {
-      if (checkVisibility()) {
-        window.removeEventListener('scroll', handleScroll);
-        clearTimeout(fallbackTimer);
+    // Create observer with options
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('revealed');
+            }, stagger * 100);
+            observer.unobserve(entry.target);
+            clearTimeout(fallbackTimer);
+          }
+        });
+      },
+      { 
+        threshold,
+        rootMargin: '0px 0px -50px 0px' // Trigger 50px before element enters viewport
       }
-    };
+    );
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    observer.observe(element);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      if (element) observer.unobserve(element);
       clearTimeout(fallbackTimer);
     };
-  }, [stagger]);
+  }, [stagger, threshold]);
 
   return (
     <div
       ref={ref}
-      className={`${className} ${isVisible ? 'revealed' : 'hidden-element'}`}
-      style={{ 
-        transitionDelay: `${stagger * 0.1}s`,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-        transition: 'opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)'
-      }}
+      className={`scroll-reveal ${className}`}
+      style={{ transitionDelay: `${stagger * 0.1}s` }}
     >
       {children}
     </div>
