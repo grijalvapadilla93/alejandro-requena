@@ -40,23 +40,16 @@ export function Footer() {
       </div>
 
       {/* Hecho por Cenit Digital */}
-      <div className="mt-12 pt-8 border-t border-neutral-200">
-        <div className="flex flex-col items-center gap-3">
-          <span className="font-sans uppercase tracking-[0.3em] text-[8px] text-neutral-400">
+      <div className="w-full md:w-auto mt-12 pt-8 border-t border-neutral-200">
+        <div className="flex flex-col items-center gap-4">
+          <span className="font-sans uppercase tracking-[0.3em] text-[10px] text-neutral-400">
             Hecho por
           </span>
-          <a 
-            href="https://cenit.digital" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-300"
-          >
-            <img
-              src="/cenit-logo.png"
-              alt="Cenit Digital"
-              className="h-6 w-auto opacity-70"
-            />
-          </a>
+          <img
+            src="/cenit-logo.png"
+            alt="Cenit Digital"
+            className="h-10 w-auto opacity-80"
+          />
         </div>
       </div>
     </footer>
