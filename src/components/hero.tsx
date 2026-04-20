@@ -14,8 +14,8 @@ export function Hero() {
         </h1>
       </Parallax>
 
-      {/* Layer 2: Photo - middle layer (centered on mobile, bottom on desktop) */}
-      <Parallax speed={0.6} className="absolute inset-0 flex items-center md:items-end justify-center z-20 pointer-events-none">
+      {/* Layer 2: Photo - anchored to bottom, feet align with the bottom bar line */}
+      <Parallax speed={0.6} className="absolute inset-0 flex items-end justify-center z-20 pointer-events-none pb-16 md:pb-0">
         <div className="relative w-full max-w-2xl mx-auto px-4">
             <img
             src="/obras/AlejandroFotoCuerpo-removebg-preview (1).png"
