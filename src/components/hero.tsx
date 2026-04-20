@@ -14,13 +14,13 @@ export function Hero() {
         </h1>
       </Parallax>
 
-      {/* Layer 2: Photo - middle layer */}
-      <Parallax speed={0.6} className="absolute inset-0 flex items-end justify-center z-20 pointer-events-none">
+      {/* Layer 2: Photo - middle layer (centered on mobile, bottom on desktop) */}
+      <Parallax speed={0.6} className="absolute inset-0 flex items-center md:items-end justify-center z-20 pointer-events-none">
         <div className="relative w-full max-w-2xl mx-auto px-4">
             <img
             src="/obras/AlejandroFotoCuerpo-removebg-preview (1).png"
             alt="Alejandro Requena - Artista Visual"
-            className="w-full h-auto object-contain max-h-[90vh] md:max-h-[85vh]"
+            className="w-full h-auto object-contain max-h-[85vh] md:max-h-[85vh]"
           />
         </div>
       </Parallax>
