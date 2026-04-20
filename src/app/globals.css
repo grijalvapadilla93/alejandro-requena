@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* Hero entrance animation — only opacity, GSAP handles transforms */
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-enter {
+  opacity: 0;
+  animation: heroFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 @theme inline {
   --font-serif: "Newsreader", serif;
   --font-sans: "Inter", sans-serif;
