@@ -4,9 +4,9 @@ import { Parallax } from "@/components/parallax";
 
 export function Hero() {
   return (
-    <section className="min-h-[100dvh] flex flex-col justify-center px-6 md:px-12 relative overflow-hidden bg-white" id="inicio">
+    <section className="min-h-[85vh] md:min-h-[100dvh] flex flex-col justify-center px-6 md:px-12 relative overflow-hidden bg-white" id="inicio">
       {/* Layer 1: "ALEJANDRO" text - back layer (slow) */}
-      <Parallax speed={0.3} className="absolute inset-0 flex items-start justify-start z-10 pointer-events-none pt-8 md:pt-0 md:items-center">
+      <Parallax speed={0.3} className="absolute inset-0 flex items-center justify-start z-10 pointer-events-none">
         <h1 className="fragmented-text select-none">
           <span className="block font-headline font-extralight tracking-tighter text-black/10 leading-[0.85]" style={{ fontSize: "clamp(3.5rem, 20vw, 999px)" }}>
             ALEJANDRO
@@ -14,8 +14,8 @@ export function Hero() {
         </h1>
       </Parallax>
 
-      {/* Layer 2: Photo - anchored to bottom, feet align with the bottom bar line */}
-      <Parallax speed={0.6} className="absolute inset-0 flex items-end justify-center z-20 pointer-events-none pb-16 md:pb-0">
+      {/* Layer 2: Photo - centered on mobile, bottom-aligned on desktop */}
+      <Parallax speed={0.6} className="absolute inset-0 flex items-center md:items-end justify-center z-20 pointer-events-none">
         <div className="relative w-full max-w-2xl mx-auto px-4">
             <img
             src="/obras/AlejandroFotoCuerpo-removebg-preview (1).png"
