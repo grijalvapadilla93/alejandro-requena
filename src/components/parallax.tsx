@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -18,14 +18,15 @@ export function Parallax({
   className = "",
 }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+  }, []);
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return;
-
-    // Disable parallax on mobile — it looks exaggerated on small screens
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile) return;
+    if (!element || isMobile) return;
 
     const ctx = gsap.context(() => {
       gsap.to(element, {
@@ -41,7 +42,7 @@ export function Parallax({
     }, ref);
 
     return () => ctx.revert();
-  }, [speed]);
+  }, [speed, isMobile]);
 
   return (
     <div ref={ref} className={className}>
