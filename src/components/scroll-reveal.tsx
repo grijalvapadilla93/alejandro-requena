@@ -48,8 +48,8 @@ export function ScrollReveal({
         });
       },
       { 
-        threshold,
-        rootMargin: '0px 0px -50px 0px' // Trigger 50px before element enters viewport
+        threshold: 0.05,
+        rootMargin: '0px 0px 0px 0px' // Trigger as soon as element touches viewport
       }
     );
 
@@ -65,7 +65,7 @@ export function ScrollReveal({
     <div
       ref={ref}
       className={`scroll-reveal ${className}`}
-      style={{ transitionDelay: `${stagger * 0.1}s` }}
+      style={{ transitionDelay: `${stagger * 0.15}s` }}
     >
       {children}
     </div>

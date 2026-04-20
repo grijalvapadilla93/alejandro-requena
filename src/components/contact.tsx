@@ -40,8 +40,8 @@ export function Contact() {
 
         <form className="space-y-16">
           <div 
-            className="relative form-item animate-fade-in"
-            style={{ animationDelay: "0ms" }}
+            className="relative form-item"
+            style={{ transitionDelay: "0ms" }}
           >
             <input
               className="w-full bg-transparent border-0 border-b border-black/10 p-4 font-mono text-sm focus:ring-0 focus:border-black transition-colors uppercase tracking-widest placeholder:text-neutral-300 input-focus"
@@ -51,8 +51,8 @@ export function Contact() {
           </div>
 
           <div 
-            className="relative form-item animate-fade-in"
-            style={{ animationDelay: "100ms" }}
+            className="relative form-item"
+            style={{ transitionDelay: "100ms" }}
           >
             <input
               className="w-full bg-transparent border-0 border-b border-black/10 p-4 font-mono text-sm focus:ring-0 focus:border-black transition-colors uppercase tracking-widest placeholder:text-neutral-300 input-focus"
@@ -62,8 +62,8 @@ export function Contact() {
           </div>
 
           <div 
-            className="relative form-item animate-fade-in"
-            style={{ animationDelay: "200ms" }}
+            className="relative form-item"
+            style={{ transitionDelay: "200ms" }}
           >
             <textarea
               className="w-full bg-transparent border-0 border-b border-black/10 p-4 font-mono text-sm focus:ring-0 focus:border-black transition-colors uppercase tracking-widest placeholder:text-neutral-300 resize-none input-focus"
@@ -73,8 +73,8 @@ export function Contact() {
           </div>
 
           <div 
-            className="pt-8 text-center form-item animate-fade-in"
-            style={{ animationDelay: "300ms" }}
+            className="pt-8 text-center form-item"
+            style={{ transitionDelay: "300ms" }}
           >
             <button
               className="font-mono text-xl md:text-2xl uppercase tracking-[0.2em] border-none bg-none p-0 cursor-pointer btn-press btn-glow hover-opacity"

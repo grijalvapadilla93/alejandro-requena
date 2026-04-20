@@ -153,6 +153,20 @@ html {
   transform: translateY(0) !important;
 }
 
+/* Form items & testimonials - start hidden, animate on .animate-in */
+.form-item,
+.testimonial-item {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.form-item.animate-in,
+.testimonial-item.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Fade in animation */
 @keyframes fadeInUp {
   from {

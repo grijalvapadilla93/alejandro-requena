@@ -60,9 +60,9 @@ export function Testimonials() {
         {testimonials.map((item, index) => (
           <div
             key={index}
-            className="testimonial-item grid grid-cols-12 py-8 border-b border-black/10 items-end animate-fade-in"
+            className="testimonial-item grid grid-cols-12 py-8 border-b border-black/10 items-end"
             style={{
-              animationDelay: `${index * 150}ms`,
+              transitionDelay: `${index * 150}ms`,
             }}
           >
             <div className="col-span-12 md:col-span-8 font-headline text-2xl md:text-3xl lg:text-5xl italic font-light">

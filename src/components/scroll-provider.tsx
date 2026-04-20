@@ -13,21 +13,7 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      
-      // Update CSS variable
       document.documentElement.style.setProperty('--scroll', `${scrollY}px`);
-      
-      // Also update for parallax elements directly (better Safari compatibility)
-      const parallaxElements = document.querySelectorAll('.parallax-slow, .parallax-medium, .parallax-fast');
-      
-      parallaxElements.forEach(el => {
-        const element = el as HTMLElement;
-        const speed = element.classList.contains('parallax-slow') ? 0.3 :
-                     element.classList.contains('parallax-medium') ? 0.5 : 0.7;
-        
-        element.style.transform = `translateY(${scrollY * speed}px)`;
-        element.style.webkitTransform = `translateY(${scrollY * speed}px)`;
-      });
     };
 
     // Throttle scroll events for better performance

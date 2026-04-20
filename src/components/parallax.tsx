@@ -23,6 +23,10 @@ export function Parallax({
     const element = ref.current;
     if (!element) return;
 
+    // Disable parallax on mobile — it looks exaggerated on small screens
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) return;
+
     const ctx = gsap.context(() => {
       gsap.to(element, {
         yPercent: -20 * speed,

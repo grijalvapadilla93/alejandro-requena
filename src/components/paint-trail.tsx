@@ -42,7 +42,19 @@ export function PaintTrail() {
       mouseRef.current.prevY = mouseRef.current.y;
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
+      addPoints();
+    };
 
+    const onTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      mouseRef.current.prevX = mouseRef.current.x;
+      mouseRef.current.prevY = mouseRef.current.y;
+      mouseRef.current.x = touch.clientX;
+      mouseRef.current.y = touch.clientY;
+      addPoints();
+    };
+
+    const addPoints = () => {
       const dx = mouseRef.current.x - mouseRef.current.prevX;
       const dy = mouseRef.current.y - mouseRef.current.prevY;
       const speed = Math.sqrt(dx * dx + dy * dy);
@@ -116,10 +128,12 @@ export function PaintTrail() {
     };
 
     window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
     frameRef.current = requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(frameRef.current);
     };
