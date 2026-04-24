@@ -9,7 +9,7 @@ export function Footer() {
           <div className="text-black font-serif text-2xl md:text-3xl tracking-tighter mb-4">
             ALEJANDRO REQUENA
           </div>
-          <p className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-[#4f370b]">
+          <p className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-neutral-500">
             © 2026 ALEJANDRO REQUENA. TODOS LOS DERECHOS RESERVADOS.
           </p>
         </div>
@@ -19,7 +19,7 @@ export function Footer() {
             href="https://www.instagram.com/alejandrorequena_/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-[#4f370b] hover:text-black transition-colors duration-300 link-underline"
+            className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-neutral-500 hover:text-black transition-colors duration-300 link-underline"
           >
             INSTAGRAM
           </a>
@@ -27,7 +27,7 @@ export function Footer() {
             href="https://www.facebook.com/AlejandroRequena1010/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-[#4f370b] hover:text-black transition-colors duration-300 link-underline"
+            className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-neutral-500 hover:text-black transition-colors duration-300 link-underline"
           >
             FACEBOOK
           </a>
@@ -35,7 +35,7 @@ export function Footer() {
             href="https://www.sicultura.gob.gt/directory-directorio_c/listing/edwin-alejandro-requena-cante/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-[#4f370b] hover:text-black transition-colors duration-300 link-underline"
+            className="font-sans uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-[11px] text-neutral-500 hover:text-black transition-colors duration-300 link-underline"
           >
             SICULTURA
           </a>

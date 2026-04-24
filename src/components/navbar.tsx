@@ -16,9 +16,11 @@ export function Navbar() {
 
   const links = [
     { name: "PORTAFOLIO", href: "#portafolio" },
+    { name: "ENCARGOS", href: "#encargos" },
     { name: "ACADEMIA", href: "#academia" },
     { name: "ACERCA", href: "#acerca" },
     { name: "CONTACTO", href: "#contact" },
+    { name: "ENCARGAR", href: "#encargos", highlight: true },
   ];
 
   return (
@@ -42,7 +44,11 @@ export function Navbar() {
               key={item.name}
               href={item.href}
               className={`font-serif font-light uppercase tracking-[0.4em] text-xs transition-all duration-300 hover-opacity link-underline ${
-                i === 0 ? "text-black font-bold" : "text-neutral-400"
+                item.highlight
+                  ? "text-[#7F56D9] font-bold"
+                  : i === 0
+                  ? "text-black font-bold"
+                  : "text-neutral-400"
               }`}
             >
               {item.name}

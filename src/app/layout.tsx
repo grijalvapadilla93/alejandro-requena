@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Newsreader, Inter } from "next/font/google";
 import { ScrollProvider } from "@/components/scroll-provider";
 import { PaintTrail } from "@/components/paint-trail";
+import { BfcacheReload } from "@/components/bfcache-reload";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -34,14 +35,22 @@ export default function RootLayout({
       className={`${newsreader.variable} ${inter.variable} h-full antialiased`}
     >
       <head>
+        <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, proxy-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
-        <script dangerouslySetInnerHTML={{ __html: `if(history.scrollRestoration)history.scrollRestoration='manual';window.scrollTo(0,0);` }} />
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+          })();
+        `}} />
       </head>
       <body className="min-h-full flex flex-col bg-background text-on-surface font-serif">
+        <BfcacheReload />
         <PaintTrail />
         <ScrollProvider>
           {children}

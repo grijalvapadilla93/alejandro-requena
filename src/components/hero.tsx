@@ -1,14 +1,40 @@
 "use client";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { PaintRevealText } from "@/components/paint-reveal-text";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function TimeWidget() {
+  const [time, setTime] = React.useState("");
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+          timeZone: "America/Guatemala",
+        }) + " GMT-6"
+      );
+    };
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="font-label uppercase tracking-[0.3em] text-[9px] text-neutral-400 tabular-nums">
+      {time}
+    </span>
+  );
+}
+
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const alejandroRef = useRef<HTMLSpanElement>(null);
-  const requenaRef = useRef<HTMLSpanElement>(null);
+  const alejandroRef = useRef<HTMLDivElement>(null);
+  const requenaRef = useRef<HTMLDivElement>(null);
   const subRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,29 +47,6 @@ export function Hero() {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
     const ctx = gsap.context(() => {
-      // Entrance — slide up, then clear inline styles so scroll can take over
-      const tl = gsap.timeline({ delay: 0.3 });
-
-      tl.from(alejandro, {
-        y: 120,
-        duration: 1,
-        ease: "power4.out",
-        clearProps: "transform",
-      });
-
-      tl.from(
-        requena,
-        { y: 120, duration: 0.9, ease: "power4.out", clearProps: "transform" },
-        "-=0.6"
-      );
-
-      tl.from(
-        sub,
-        { y: 30, duration: 0.7, ease: "power2.out", clearProps: "transform" },
-        "-=0.4"
-      );
-
-      // Scroll animation — text splits apart (works on all devices, less on mobile)
       const slideAmount = isMobile ? 15 : 30;
 
       gsap.to(alejandro, {
@@ -82,7 +85,6 @@ export function Hero() {
         },
       });
 
-      // Fade transition — hero fades to white as you scroll past
       gsap.to(section, {
         opacity: 0,
         ease: "none",
@@ -114,37 +116,35 @@ export function Hero() {
         }}
       />
 
+      {/* Top bar */}
+      <div className="absolute top-0 left-0 right-0 z-30 flex justify-between items-center px-6 md:px-12 pt-24 md:pt-28 pb-6 pointer-events-none">
+        <span className="font-label uppercase tracking-[0.3em] text-[9px] text-neutral-400">
+          JALAPA, GT
+        </span>
+        <TimeWidget />
+      </div>
+
       {/* Pinned content */}
-      <div className="sticky top-0 h-[100dvh] flex flex-col items-center justify-center overflow-hidden select-none px-4 z-[2]">
-        {/* ALEJANDRO — CSS entrance animation */}
-        <span
+      <div className="sticky top-0 h-[100dvh] flex flex-col items-center justify-center overflow-hidden select-none px-4 z-[2] pt-20">
+        <div
           ref={alejandroRef}
-          className="block font-headline font-bold tracking-tighter text-black leading-[0.85] text-center hero-enter"
-          style={{
-            fontSize: "clamp(2.8rem, 14vw, 300px)",
-            animationDelay: "0.3s",
-          }}
+          className="block font-headline font-bold tracking-tighter text-black leading-[0.9] text-center"
+          style={{ fontSize: "clamp(2.8rem, 12vw, 180px)" }}
         >
-          ALEJANDRO
-        </span>
+          <PaintRevealText delay={0.4}>ALEJANDRO</PaintRevealText>
+        </div>
 
-        {/* REQUENA — CSS entrance animation */}
-        <span
+        <div
           ref={requenaRef}
-          className="block font-headline font-extralight tracking-tighter text-black/20 leading-[0.85] text-center -mt-1 md:-mt-4 hero-enter"
-          style={{
-            fontSize: "clamp(2.8rem, 14vw, 300px)",
-            animationDelay: "0.6s",
-          }}
+          className="block font-headline font-extralight tracking-tighter text-black/20 leading-[0.9] text-center -mt-1 md:-mt-2"
+          style={{ fontSize: "clamp(2.8rem, 12vw, 180px)" }}
         >
-          REQUENA
-        </span>
+          <PaintRevealText delay={0.8}>REQUENA</PaintRevealText>
+        </div>
 
-        {/* Subtitle — CSS entrance animation */}
         <div
           ref={subRef}
-          className="mt-8 md:mt-12 flex flex-col items-center gap-3 hero-enter"
-          style={{ animationDelay: "0.9s" }}
+          className="mt-8 md:mt-12 flex flex-col items-center gap-3"
         >
           <span className="font-label uppercase tracking-[0.4em] text-[9px] md:text-[11px] text-neutral-400">
             Artista Visual · Jalapa, Guatemala

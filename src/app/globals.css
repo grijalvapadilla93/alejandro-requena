@@ -128,10 +128,10 @@ html {
   transform: translateZ(0);
 }
 
-/* Scroll reveal animations */
+/* Scroll reveal animations - visible by default, JS enables animation */
 .scroll-reveal {
-  opacity: 0;
-  transform: translateY(40px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
               transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   -webkit-transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
@@ -142,7 +142,12 @@ html {
   -webkit-backface-visibility: hidden;
 }
 
-.scroll-reveal.revealed {
+.js-enabled .scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.js-enabled .scroll-reveal.revealed {
   opacity: 1;
   transform: translateY(0);
 }
@@ -162,20 +167,6 @@ html {
 .animate-in {
   opacity: 1 !important;
   transform: translateY(0) !important;
-}
-
-/* Form items & testimonials - start hidden, animate on .animate-in */
-.form-item,
-.testimonial-item {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.form-item.animate-in,
-.testimonial-item.animate-in {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* Fade in animation */
@@ -479,8 +470,8 @@ html {
 
 /* Form item reveal */
 .form-item {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -492,8 +483,8 @@ html {
 
 /* Testimonial item reveal */
 .testimonial-item {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
