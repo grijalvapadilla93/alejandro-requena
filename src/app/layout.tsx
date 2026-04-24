@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Newsreader, Inter } from "next/font/google";
 import { ScrollProvider } from "@/components/scroll-provider";
 import { PaintTrail } from "@/components/paint-trail";
-import { BfcacheReload } from "@/components/bfcache-reload";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -43,14 +42,36 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
-        <script dangerouslySetInnerHTML={{ __html: `
-          (function(){
-            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-          })();
-        `}} />
+        {/* Bfcache fix — runs synchronously before React mounts */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(){
+                if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+                // Check 1: modern PerformanceNavigationTiming API
+                var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+                if (nav && nav.type === 'back_forward') {
+                  window.location.reload();
+                  return;
+                }
+                // Check 2: deprecated but synchronous API
+                var legacy = window.performance && window.performance.navigation;
+                if (legacy && legacy.type === 2) {
+                  window.location.reload();
+                  return;
+                }
+                // Check 3: pageshow listener for bfcache restoration
+                window.addEventListener('pageshow', function(e) {
+                  if (e.persisted) {
+                    window.location.reload();
+                  }
+                });
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-background text-on-surface font-serif">
-        <BfcacheReload />
         <PaintTrail />
         <ScrollProvider>
           {children}
